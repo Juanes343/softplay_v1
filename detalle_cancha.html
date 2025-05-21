@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalles de la cancha</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f4f4; }
+        .navbar { background: #388e3c; color: #fff; padding: 18px 32px; display: flex; align-items: center; }
+        .navbar .logo { font-size: 2rem; margin-right: 14px; }
+        .navbar .title { font-size: 1.4rem; font-weight: bold; }
+        .detalle-container { display: flex; margin: 32px auto; max-width: 1100px; background: #fff; border-radius: 10px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+        .detalle-lateral { width: 340px; border-right: 1px solid #e0e0e0; padding: 24px; }
+        .detalle-main { flex: 1; padding: 24px; }
+        .nombre { font-size: 1.5rem; font-weight: bold; color: #388e3c; }
+        .estrellas { color: #ffc107; margin-left: 8px; }
+        .info { margin: 10px 0; }
+        .info i { margin-right: 6px; }
+        .seccion { margin-bottom: 24px; }
+        .seccion-titulo { font-weight: bold; color: #388e3c; margin-bottom: 8px; }
+        .servicios { list-style: none; padding: 0; }
+        .servicios li { margin-bottom: 6px; }
+        .resenas { background: #f7f7f7; border-radius: 8px; padding: 12px; }
+        .resena { margin-bottom: 10px; }
+        .resena .autor { font-weight: bold; }
+        .resena .fecha { color: #888; font-size: 0.95rem; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <span class="logo"><i class="fa-solid fa-futbol"></i></span>
+        <span class="title">Detalles de la cancha</span>
+    </div>
+    <div class="detalle-container">
+        <div class="detalle-lateral">
+            <img src="https://cdn-icons-png.flaticon.com/512/616/616494.png" alt="Mini Fútbol El Barrio" style="width:100%;border-radius:8px;">
+            <div class="nombre">Mini Fútbol El Barrio <span class="estrellas">★★★★☆</span></div>
+            <div class="info"><i class="fa fa-map-marker-alt"></i> Jr. Amistad 567, Breña</div>
+            <div class="info"><i class="fa fa-futbol"></i> Cancha 5x5</div>
+            <div class="info"><i class="fa fa-phone"></i> +51 934 567 890</div>
+            <div class="info"><i class="fa fa-globe"></i> <a href="#">Sitio web</a></div>
+        </div>
+        <div class="detalle-main">
+            <div class="seccion">
+                <div class="seccion-titulo"><i class="fa fa-info-circle"></i> Información</div>
+                <div>Tipo de superficie: Césped sintético</div>
+                <div>Tamaño: Cancha 5x5</div>
+                <div>Precio por hora: $50</div>
+                <div>Horario: Lun-Vie: 15:00 - 22:00, Sáb-Dom: 10:00 - 22:00</div>
+            </div>
+            <div class="seccion">
+                <div class="seccion-titulo"><i class="fa fa-check-circle"></i> Servicios</div>
+                <ul class="servicios">
+                    <li><i class="fa fa-check"></i> Iluminación básica</li>
+                    <li><i class="fa fa-check"></i> Baños</li>
+                    <li><i class="fa fa-check"></i> Kiosco</li>
+                </ul>
+            </div>
+            <div class="seccion resenas">
+                <div class="seccion-titulo"><i class="fa fa-star"></i> Reseñas recientes</div>
+                <div class="resena">
+                    <div class="autor">Fernando López</div>
+                    <div>Buena para partidos informales. Precio accesible.</div>
+                    <div class="fecha">10/08/2023</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

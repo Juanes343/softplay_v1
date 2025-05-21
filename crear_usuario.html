@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Usuario - SOFTPLAY</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background: #838a94; margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .navbar { background: #1b2230; color: #fff; padding: 24px 48px; display: flex; align-items: center; }
+        .navbar .logo { margin-right: 18px; }
+        .navbar .logo img { height: 48px; }
+        .navbar .title { font-size: 2rem; font-weight: bold; letter-spacing: 2px; }
+        .crear-container { display: flex; justify-content: center; align-items: center; height: 85vh; }
+        .crear-card { background: #434950; padding: 48px 48px 32px 48px; border-radius: 18px; box-shadow: 0 8px 32px rgba(30,40,60,0.25); min-width: 420px; max-width: 90vw; }
+        .crear-card h2 { color: #fff; text-align: center; margin-bottom: 32px; font-weight: 700; font-size: 2.2rem; }
+        .input-group { margin-bottom: 22px; }
+        .input-group label { color: #e0e0e0; font-size: 1.15rem; margin-bottom: 8px; display: block; font-weight: 500; }
+        .input-group .input-icon { position: relative; width: 100%; box-sizing: border-box; }
+        .input-group input { width: 100%; padding: 14px 44px 14px 44px; border: none; border-radius: 8px; background: #232837; color: #bfc3c9; font-size: 1.15rem; outline: none; transition: background 0.2s; box-sizing: border-box; }
+        .input-group input:focus { background: #232837cc; }
+        .input-group .fa { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #4eaaff; font-size: 1.3rem; }
+        .crear-btn { width: 100%; padding: 14px 0; border: none; border-radius: 7px; font-size: 1.25rem; font-weight: 600; margin-bottom: 16px; cursor: pointer; background: #2196f3; color: #fff; transition: background 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .crear-btn:hover { background: #1769aa; }
+        .mensaje-exito { background: #e8f5e9; color: #388e3c; border-radius: 8px; padding: 16px; margin-top: 18px; text-align: center; font-weight: bold; display: none; }
+        .volver-link { color: #29a6ff; text-align: center; display: block; margin-top: 12px; text-decoration: underline; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <span class="logo"><img src="img/logo.jpg" alt="Logo SOFTPLAY"></span>
+        <span class="title">SOFTPLAY</span>
+    </div>
+    <div class="crear-container">
+        <form class="crear-card" id="formCrearUsuario">
+            <h2><i class="fa fa-user-plus"></i>Crear Usuario</h2>
+            <div class="input-group">
+                <label for="nombre">Nombre completo</label>
+                <div class="input-icon">
+                    <i class="fa fa-user"></i>
+                    <input type="text" id="nombre" placeholder="Nombre completo" required>
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="email">Correo Electrónico</label>
+                <div class="input-icon">
+                    <i class="fa fa-envelope"></i>
+                    <input type="email" id="email" placeholder="correo@ejemplo.com" required>
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="rol">Rol</label>
+                <div class="input-icon">
+                    <i class="fa fa-user-tag"></i>
+                    <input type="text" id="rol" placeholder="Ej: Administrador, Cliente" required>
+                </div>
+            </div>
+            <button type="submit" class="crear-btn"><i class="fa fa-check"></i>Crear Usuario</button>
+            <div class="mensaje-exito" id="mensajeExito">
+                ¡Usuario creado correctamente!
+            </div>
+            <span class="volver-link" onclick="window.location.href='dashboard.html'">Volver al Dashboard</span>
+        </form>
+    </div>
+    <script>
+        document.getElementById('formCrearUsuario').addEventListener('submit', function(e) {
+            e.preventDefault();
+            document.getElementById('mensajeExito').style.display = 'block';
+            setTimeout(function() {
+                window.location.href = 'dashboard.html';
+            }, 1800);
+        });
+    </script>
+</body>
+</html>

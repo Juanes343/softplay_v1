@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Buscador de Canchas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f4f4; }
+        .navbar { background: #388e3c; color: #fff; padding: 18px 32px; display: flex; align-items: center; }
+        .navbar .logo { font-size: 2rem; margin-right: 14px; }
+        .navbar .title { font-size: 1.4rem; font-weight: bold; }
+        .container { display: flex; height: calc(100vh - 60px); }
+        .sidebar { width: 340px; background: #fff; border-right: 1px solid #e0e0e0; padding: 0 0 0 0; overflow-y: auto; }
+        .filtros { padding: 18px 18px 0 18px; }
+        .filtros h3 { color: #388e3c; font-size: 1.2rem; margin-bottom: 12px; }
+        .filtros input[type="text"] { width: 100%; padding: 8px 12px; border-radius: 6px; border: 1px solid #bdbdbd; margin-bottom: 14px; }
+        .filtros label { display: block; margin-bottom: 6px; font-size: 1rem; }
+        .filtros input[type="checkbox"] { margin-right: 6px; }
+        .filtros select, .filtros input[type="range"] { width: 100%; margin-bottom: 14px; }
+        .filtros .aplicar-btn { background: #388e3c; color: #fff; border: none; border-radius: 6px; padding: 10px 0; width: 100%; font-size: 1.1rem; cursor: pointer; margin-bottom: 18px; }
+        .canchas-cercanas { padding: 0 18px 18px 18px; }
+        .canchas-cercanas h4 { color: #388e3c; margin: 0 0 10px 0; }
+        .cancha-card { background: #e8f5e9; border-radius: 8px; margin-bottom: 12px; padding: 12px 14px; box-shadow: 0 2px 6px rgba(0,0,0,0.04); }
+        .cancha-card .nombre { font-weight: bold; color: #388e3c; font-size: 1.1rem; }
+        .cancha-card .estrellas { color: #ffc107; margin-left: 8px; }
+        .cancha-card .info { font-size: 0.98rem; margin: 4px 0; }
+        .cancha-card .ver-detalles-btn { background: #fff; color: #388e3c; border: 1px solid #388e3c; border-radius: 6px; padding: 4px 12px; font-size: 1rem; cursor: pointer; margin-top: 6px; }
+        .mapa { flex: 1; position: relative; }
+        #map { width: 100%; height: 100%; min-height: 100vh; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <span class="logo"><i class="fa-solid fa-futbol"></i></span>
+        <span class="title">Buscador de Canchas</span>
+    </div>
+    <div class="container">
+        <div class="sidebar">
+            <div class="filtros">
+                <h3><i class="fa fa-filter"></i> Filtros</h3>
+                <input type="text" id="searchField" placeholder="Buscar por nombre o dirección">
+                <label>Distancia máxima: <span id="distanceValue">5</span> km</label>
+                <input type="range" min="1" max="10" value="5" id="distanceRange">
+                <label>Tamaño de cancha:</label>
+                <label><input type="checkbox" class="size-filter" value="5x5" checked>5 vs 5</label>
+                <label><input type="checkbox" class="size-filter" value="7x7" checked>7 vs 7</label>
+                <label><input type="checkbox" class="size-filter" value="11x11" checked>11 vs 11</label>
+                <label>Calificación mínima:</label>
+                <select id="ratingFilter">
+                    <option value="3">3 estrellas o más</option>
+                    <option value="4">4 estrellas o más</option>
+                    <option value="5">5 estrellas</option>
+                </select>
+                <button class="aplicar-btn" id="applyFilters">Aplicar filtros</button>
+            </div>
+            <div class="canchas-cercanas">
+                <h4><i class="fa fa-futbol"></i> Canchas cercanas</h4>
+                <div id="fieldsList"></div>
+            </div>
+        </div>
+        <div class="mapa">
+            <div id="map"></div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Datos de ejemplo
+        const fields = [
+            {
+                id: 'elgolazo',
+                name: 'Cancha El Golazo',
+                address: 'Av. Principal 123, San Isidro',
+                size: '7x7',
+                rating: 5,
+                distance: 1.2,
+                lat: -12.045,
+                lng: -77.03
+            },
+            {
+                id: 'campeones',
+                name: 'Complejo Deportivo Campeones',
+                address: 'Los Deportistas 456, Miraflores',
+                size: '11x11',
+                rating: 4,
+                distance: 1.8,
+                lat: -12.05,
+                lng: -77.04
+            },
+            {
+                id: 'sanmartin',
+                name: 'Futbito San Martín',
+                address: 'Los Pinos 789, Surco',
+                size: '5x5',
+                rating: 5,
+                distance: 2.5,
+                lat: -12.06,
+                lng: -77.05
+            }
+        ];
+
+        // Inicializar mapa
+        let map = L.map('map').setView([-12.046374, -77.042793], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Marcadores de canchas
+        let markers = [];
+
+        function renderFields(list) {
+            const container = document.getElementById('fieldsList');
+            container.innerHTML = '';
+            markers.forEach(m => map.removeLayer(m));
+            markers = [];
+            list.forEach(field => {
+                // Card
+                const card = document.createElement('div');
+                card.className = 'cancha-card';
+                card.innerHTML = `
+                    <span class="nombre">${field.name}</span>
+                    <span class="estrellas">${'★'.repeat(field.rating)}${'☆'.repeat(5-field.rating)}</span>
+                    <div class="info"><i class="fa fa-map-marker-alt"></i> ${field.address}</div>
+                    <div class="info"><i class="fa fa-futbol"></i> Cancha ${field.size}</div>
+                    <div class="info"><i class="fa fa-location-arrow"></i> ${field.distance} km de distancia</div>
+                    <button class="ver-detalles-btn" onclick="window.location.href='detalle_cancha.html?id=${field.id}'">Ver detalles</button>
+                `;
+                container.appendChild(card);
+
+                // Marker con popup personalizado
+                const popupContent = `
+                    <div style="min-width:220px;">
+                        <b style="font-size:1.1rem;">${field.name}</b><br>
+                        <span>${field.address}</span><br>
+                        <span>${field.distance} km de distancia</span><br>
+                        <button onclick="window.location.href='detalle_cancha.html?id=${field.id}'" style="margin-top:8px;background:#388e3c;color:#fff;border:none;border-radius:6px;padding:6px 18px;font-size:1rem;cursor:pointer;">Ver detalles</button>
+                    </div>
+                `;
+                const marker = L.marker([field.lat, field.lng]).addTo(map)
+                    .bindPopup(popupContent);
+                markers.push(marker);
+            });
+        }
+
+        function applyFilters() {
+            const search = document.getElementById('searchField').value.toLowerCase();
+            const maxDist = parseFloat(document.getElementById('distanceRange').value);
+            const sizes = Array.from(document.querySelectorAll('.size-filter:checked')).map(cb => cb.value);
+            const minRating = parseInt(document.getElementById('ratingFilter').value);
+
+            const filtered = fields.filter(f =>
+                (f.name.toLowerCase().includes(search) || f.address.toLowerCase().includes(search)) &&
+                f.distance <= maxDist &&
+                sizes.includes(f.size) &&
+                f.rating >= minRating
+            );
+            renderFields(filtered);
+        }
+
+        document.getElementById('applyFilters').addEventListener('click', applyFilters);
+        document.getElementById('distanceRange').addEventListener('input', function() {
+            document.getElementById('distanceValue').textContent = this.value;
+        });
+
+        // Inicializar con todos los campos
+        renderFields(fields);
+    </script>
+</body>
+</html>

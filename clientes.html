@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Clientes - SOFTPLAY</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background: #838a94; margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .navbar { background: #1b2230; color: #fff; padding: 24px 48px; display: flex; align-items: center; }
+        .navbar .logo { margin-right: 18px; }
+        .navbar .logo img { height: 48px; }
+        .navbar .title { font-size: 2rem; font-weight: bold; letter-spacing: 2px; }
+        .clientes-container { max-width: 900px; margin: 40px auto; background: #fff; border-radius: 10px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); padding: 32px; }
+        .clientes-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+        .clientes-header h2 { color: #388e3c; font-size: 2rem; margin: 0; }
+        .clientes-header .volver-link { color: #29a6ff; text-decoration: underline; cursor: pointer; font-size: 1.1rem; }
+        .clientes-table { width: 100%; border-collapse: collapse; background: #f7f7f7; border-radius: 8px; overflow: hidden; }
+        .clientes-table th, .clientes-table td { padding: 14px 18px; text-align: left; }
+        .clientes-table th { background: #388e3c; color: #fff; }
+        .clientes-table tr:nth-child(even) { background: #e0e0e0; }
+        .clientes-table tr:hover { background: #c8e6c9; }
+        .fa-user { color: #388e3c; margin-right: 8px; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <span class="logo"><img src="img/logo.jpg" alt="Logo SOFTPLAY"></span>
+        <span class="title">SOFTPLAY</span>
+    </div>
+    <div class="clientes-container">
+        <div class="clientes-header">
+            <h2><i class="fa fa-users"></i> Clientes</h2>
+            <span class="volver-link" onclick="window.location.href='dashboard.html'">Volver al Dashboard</span>
+        </div>
+        <table class="clientes-table">
+            <thead>
+                <tr>
+                    <th><i class="fa fa-user"></i>Nombre</th>
+                    <th><i class="fa fa-envelope"></i>Email</th>
+                    <th><i class="fa fa-user-tag"></i>Rol</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Juan Pérez</td>
+                    <td>juanperez@email.com</td>
+                    <td>Cliente</td>
+                </tr>
+                <tr>
+                    <td>María López</td>
+                    <td>marialopez@email.com</td>
+                    <td>Cliente</td>
+                </tr>
+                <tr>
+                    <td>Carlos Ruiz</td>
+                    <td>carlosruiz@email.com</td>
+                    <td>Cliente</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

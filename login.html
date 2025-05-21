@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar Sesión - SOFTPLAY</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: #838a94;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .navbar {
+            background: #1b2230;
+            color: #fff;
+            padding: 24px 48px 24px 48px;
+            display: flex;
+            align-items: center;
+        }
+        .navbar .logo {
+            font-size: 2.5rem;
+            margin-right: 18px;
+        }
+        .navbar .title {
+            font-size: 2rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 85vh;
+        }
+        .login-card {
+            background: #434950;
+            padding: 48px 48px 32px 48px;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(30,40,60,0.25);
+            min-width: 520px;
+            max-width: 90vw;
+        }
+        .login-card h2 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 32px;
+            font-weight: 700;
+            font-size: 2.2rem;
+        }
+        .login-card h2 i {
+            margin-right: 10px;
+            color: #fff;
+        }
+        .input-group {
+            margin-bottom: 22px;
+        }
+        .input-group label {
+            color: #e0e0e0;
+            font-size: 1.15rem;
+            margin-bottom: 8px;
+            display: block;
+            font-weight: 500;
+        }
+        .input-group .input-icon {
+            position: relative;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 14px 44px 14px 44px;
+            border: none;
+            border-radius: 8px;
+            background: #232837;
+            color: #bfc3c9;
+            font-size: 1.15rem;
+            outline: none;
+            transition: background 0.2s;
+        }
+        .input-group input:focus {
+            background: #232837cc;
+        }
+        .input-group .fa-envelope,
+        .input-group .fa-shield-halved {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #4eaaff;
+            font-size: 1.3rem;
+        }
+        .input-group .toggle-password {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #4eaaff;
+            cursor: pointer;
+            font-size: 1.3rem;
+        }
+        .remember-me {
+            color: #e0e0e0;
+            font-size: 1.05rem;
+            margin-bottom: 26px;
+            display: flex;
+            align-items: center;
+        }
+        .remember-me input {
+            margin-right: 10px;
+            accent-color: #2196f3;
+        }
+        .login-btn, .register-btn {
+            width: 100%;
+            padding: 14px 0;
+            border: none;
+            border-radius: 7px;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .login-btn {
+            background: #2196f3;
+            color: #fff;
+        }
+        .login-btn:hover {
+            background: #1769aa;
+        }
+        .register-btn {
+            background: #29a6ff;
+            color: #fff;
+        }
+        .register-btn:hover {
+            background: #1769aa;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <span class="logo"><img src="img/logo.jpg" alt="Logo SOFTPLAY" style="height: 60px;"></span>
+        <span class="title">SOFTPLAY</span>
+    </div>
+    <div class="login-container">
+        <form class="login-card">
+            <h2><i class="fa fa-lock"></i>Iniciar Sesión</h2>
+            <div class="input-group">
+                <label for="email">Correo Electrónico</label>
+                <div class="input-icon" style="width:100%; box-sizing:border-box;">
+                    <i class="fa fa-envelope"></i>
+                    <input type="email" id="email" placeholder="demo0@gmail.com" required style="box-sizing:border-box;">
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="password">Contraseña</label>
+                <div class="input-icon" style="width:100%; box-sizing:border-box;">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <input type="password" id="password" placeholder="••••••••" required style="box-sizing:border-box;">
+                    <span class="toggle-password" onclick="togglePassword()"><i class="fa fa-eye"></i></span>
+                </div>
+            </div>
+            <div class="remember-me">
+                <input type="checkbox" id="remember">
+                <label for="remember">Recordarme</label>
+            </div>
+            <button type="submit" class="login-btn"><i class="fa fa-sign-in-alt"></i>Iniciar Sesión</button>
+            <button type="button" class="register-btn" onclick="window.location.href='registro.html'"><i class="fa fa-user-plus"></i>Registrarse</button>
+        </form>
+    </div>
+    <script>
+        function togglePassword() {
+            const pwd = document.getElementById('password');
+            const icon = document.querySelector('.toggle-password i');
+            if (pwd.type === 'password') {
+                pwd.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                pwd.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // Redirigir al dashboard al iniciar sesión
+        document.querySelector('.login-card').addEventListener('submit', function(e) {
+            e.preventDefault();
+            window.location.href = 'dashboard.html';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Control - SOFTPLAY</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #838a94 0%, #bfc3c9 100%);
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar {
+            background: #1b2230;
+            color: #fff;
+            padding: 24px 48px;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar .logo img {
+            height: 48px;
+            margin-right: 18px;
+        }
+
+        .navbar .title {
+            font-size: 2rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .dashboard-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 36px;
+        }
+
+        .dashboard-header {
+            background: #232837;
+            border-radius: 18px 18px 0 0;
+            width: 70vw;
+            min-width: 900px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0;
+            box-shadow: 0 4px 18px rgba(30, 40, 60, 0.13);
+            padding: 24px 36px;
+        }
+
+        .dashboard-header .header-title {
+            display: flex;
+            align-items: center;
+            font-size: 2.1rem;
+            font-weight: 600;
+            gap: 18px;
+            color: #fff;
+        }
+
+        .dashboard-header .user-info {
+            display: flex;
+            align-items: center;
+            font-size: 1.15rem;
+            gap: 8px;
+            color: #fff;
+        }
+
+        .dashboard-header .user-info i {
+            font-size: 1.2rem;
+        }
+
+        .dashboard-panel {
+            background: #fff;
+            border-radius: 0 0 18px 18px;
+            width: 70vw;
+            min-width: 900px;
+            box-shadow: 0 8px 32px rgba(30, 40, 60, 0.13);
+            padding: 36px 36px 32px 36px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .dashboard-cards {
+            display: flex;
+            gap: 32px;
+            margin-bottom: 32px;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .card {
+            border-radius: 18px;
+            padding: 28px 28px 24px 28px;
+            min-width: 220px;
+            min-height: 170px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 4px 18px rgba(30, 40, 60, 0.13);
+            position: relative;
+            transition: transform 0.15s, box-shadow 0.15s;
+            align-items: flex-start;
+        }
+
+        .card:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 12px 32px rgba(30, 40, 60, 0.18);
+            z-index: 2;
+        }
+
+        .card.yellow {
+            background: linear-gradient(135deg, #ffc107 80%, #ffe082 100%);
+            color: #232837;
+        }
+
+        .card.cyan {
+            background: linear-gradient(135deg, #00cfff 80%, #b2ebf2 100%);
+            color: #232837;
+        }
+
+        .card.red {
+            background: linear-gradient(135deg, #e74c3c 80%, #ffb3b3 100%);
+            color: #fff;
+        }
+
+        .card .card-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .card .card-btn {
+            background: #fff;
+            color: #232837;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 0;
+            margin-bottom: 8px;
+            font-size: 1.05rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .card .card-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .card .card-link {
+            color: #232837;
+            text-decoration: underline;
+            font-size: 1.05rem;
+            margin-bottom: 8px;
+            display: inline-block;
+            font-weight: 500;
+        }
+
+        .card .card-link:hover {
+            text-decoration: none;
+            color: #1769aa;
+        }
+
+        .card .card-check {
+            position: absolute;
+            bottom: 18px;
+            right: 18px;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card .card-check i {
+            color: #fff;
+            font-size: 1.5rem;
+        }
+
+        /* Gráfica simulada */
+        .chart-container {
+            background: #f7f7f7;
+            border-radius: 8px;
+            width: 100%;
+            margin-top: 12px;
+            box-shadow: 0 2px 8px rgba(30, 40, 60, 0.07);
+        }
+
+        .chart-header {
+            font-weight: 600;
+            font-size: 1.15rem;
+            padding: 18px 24px 0 24px;
+        }
+
+        .chart {
+            padding: 24px 24px 32px 24px;
+            display: flex;
+            align-items: flex-end;
+            gap: 32px;
+            height: 220px;
+        }
+
+        .bar {
+            width: 38px;
+            background: #00cfff;
+            border-radius: 6px 6px 0 0;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            color: #232837;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .bar1 {
+            height: 80px;
+        }
+
+        .bar2 {
+            height: 140px;
+        }
+
+        .bar3 {
+            height: 100px;
+        }
+
+        .bar4 {
+            height: 170px;
+        }
+
+        .bar5 {
+            height: 120px;
+        }
+
+        @media (max-width: 1100px) {
+
+            .dashboard-header,
+            .dashboard-panel {
+                min-width: 0;
+                width: 98vw;
+            }
+
+            .dashboard-cards {
+                flex-direction: column;
+                gap: 18px;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <span class="logo"><img src="img/logo.jpg" alt="Logo SOFTPLAY"></span>
+        <span class="title">SOFTPLAY</span>
+    </div>
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <div class="header-title">
+                <i class="fa-solid fa-th-large"></i>
+                PANEL DE CONTROL
+            </div>
+            <div class="user-info">
+                <i class="fa fa-user-circle"></i>
+                Juanlo
+                <i class="fa fa-caret-down"></i>
+            </div>
+        </div>
+        <div class="dashboard-panel">
+            <div class="dashboard-cards"
+                style="width: 100%; justify-content: center; padding: 0 24px; box-sizing: border-box;">
+                <div class="card yellow">
+                    <div class="card-title">Gestion de usuarios</div>
+                    <button class="card-btn" id="btnCrearUsuario"><i class="fa fa-user-plus"></i>Crear Usuario</button>
+                    <script>
+                        // Obtén el botón por su ID
+                        const btnCrearUsuario = document.getElementById('btnCrearUsuario');
+
+                        // Añade un "event listener" para el evento 'click'
+                        btnCrearUsuario.addEventListener('click', function () {
+                            // Redirige a la URL deseada
+                            window.location.href = 'crear_usuario.html';
+                        });
+                    </script>
+                </div>
+                <div class="card cyan">
+                    <div class="card-title">Busqueda de Canchas</div>
+                    <a href="buscador.html" class="card-link">Más info &rarr;</a>
+                    <div class="card-check"><i class="fa fa-check-circle"></i></div>
+                </div>
+                <div class="card yellow">
+                    <div class="card-title">Reserva</div>
+                    <a href="reserva.html" class="card-link">Más info &rarr;</a>
+                    <div class="card-check"><i class="fa fa-check-circle"></i></div>
+                </div>
+                <div class="card red">
+                    <div class="card-title">Clientes</div>
+                    <a href="clientes.html" class="card-link">Más info &rarr;</a>
+                    <div class="card-check"><i class="fa fa-check-circle"></i></div>
+                </div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-header">Ganancias alquiler por mes</div>
+                <div class="chart">
+                    <div class="bar bar1">Ene</div>
+                    <div class="bar bar2">Feb</div>
+                    <div class="bar bar3">Mar</div>
+                    <div class="bar bar4">Abr</div>
+                    <div class="bar bar5">May</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script>
+    document.querySelector('.btn-buscar-canchas').addEventListener('click', function () {
+        window.location.href = 'buscador.html';
+    });
+</script>
